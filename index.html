@@ -4,9 +4,319 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#E8A0B0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Team Ari" />
   <title>Team Ari's Happiness</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink: #f4b8c5;
+      --pink-deep: #d97a90;
+      --rose: #8b3a4a;
+      --cream: #fff7f4;
+      --card: #fffdfc;
+      --ink: #3a2228;
+      --muted: #8a6a72;
+      --shadow: 0 10px 30px rgba(139, 58, 74, 0.10);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--cream); color: var(--ink); }
+    body {
+      font-family: Outfit, system-ui, sans-serif;
+      min-height: 100dvh;
+      padding: 0 0 128px;
+      background:
+        radial-gradient(1200px 500px at 80% -10%, #ffd6e0 0%, transparent 55%),
+        radial-gradient(800px 400px at -10% 20%, #ffe8c8 0%, transparent 50%),
+        var(--cream);
+    }
+    .wrap { max-width: 560px; margin: 0 auto; padding: 18px 16px 24px; }
+    header.hero { text-align: center; padding: 28px 12px 8px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; color: var(--rose); border: 1px solid #f0c9d2;
+      border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 600;
+      letter-spacing: .04em; text-transform: uppercase;
+    }
+    h1 {
+      font-family: Fraunces, Georgia, serif;
+      font-size: clamp(28px, 8vw, 40px); line-height: 1.05;
+      margin: 14px 0 8px; color: var(--rose);
+    }
+    .sub { color: var(--muted); font-size: 15px; }
+    .countdown {
+      margin: 18px auto 8px; display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 8px; max-width: 360px;
+    }
+    .tick { background: #fff; border-radius: 16px; padding: 10px 4px; box-shadow: var(--shadow); }
+    .tick b { display: block; font-family: Fraunces, serif; font-size: 22px; color: var(--rose); }
+    .tick span { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .card {
+      background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 18px 16px; margin: 14px 0; border: 1px solid rgba(232, 160, 176, .28);
+    }
+    .card h2 {
+      font-family: Fraunces, serif; font-size: 20px; color: var(--rose);
+      margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .when { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .pill {
+      background: #fff0f3; color: var(--rose); border-radius: 14px;
+      padding: 10px 12px; flex: 1; min-width: 140px; font-size: 14px;
+    }
+    .pill small { display: block; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .05em; }
+    .member {
+      display: grid; grid-template-columns: 44px 1fr; gap: 10px;
+      padding: 12px 0; border-bottom: 1px dashed #f0d4da;
+    }
+    .member:last-child { border-bottom: 0; padding-bottom: 0; }
+    .avatar {
+      width: 44px; height: 44px; border-radius: 16px; display: grid; place-items: center;
+      background: #ffe4ea; font-size: 20px;
+    }
+    .member strong { display: block; font-size: 15px; }
+    .member p { color: var(--muted); font-size: 13px; line-height: 1.35; margin-top: 2px; }
+    .place { padding: 12px 0; border-bottom: 1px dashed #f0d4da; }
+    .place:last-of-type { border-bottom: 0; }
+    .place h3 { font-size: 16px; }
+    .place p { color: var(--muted); font-size: 13px; margin: 4px 0 8px; }
+    .links { display: flex; gap: 8px; flex-wrap: wrap; }
+    a.btn, button.btn {
+      appearance: none; border: 0; cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      border-radius: 999px; padding: 10px 14px; font-weight: 600; font-size: 13px; font-family: inherit;
+    }
+    .btn-dark { background: var(--rose); color: #fff; }
+    .btn-soft { background: #fff0f3; color: var(--rose); }
+    .btn-wa { background: #25D366; color: #fff; }
+    .list { list-style: none; }
+    .item {
+      display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start;
+      padding: 10px 0; border-bottom: 1px solid #f6e6ea;
+    }
+    .item:last-child { border-bottom: 0; }
+    .item input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--pink-deep); }
+    .item.done span { text-decoration: line-through; color: var(--muted); }
+    .who { display: block; font-size: 12px; color: var(--pink-deep); font-weight: 600; margin-top: 2px; }
+    .add-row { display: flex; gap: 8px; margin-top: 12px; }
+    .add-row input, textarea {
+      flex: 1; border: 1px solid #f0c9d2; border-radius: 14px; padding: 11px 12px;
+      font: inherit; background: #fff; color: var(--ink);
+    }
+    textarea { width: 100%; min-height: 88px; resize: vertical; }
+    .progress { height: 8px; background: #ffe4ea; border-radius: 99px; overflow: hidden; margin-top: 8px; }
+    .progress > i {
+      display: block; height: 100%; width: 0;
+      background: linear-gradient(90deg, #f4b8c5, #d97a90);
+      border-radius: 99px; transition: width .35s ease;
+    }
+    .dock {
+      position: fixed; left: 0; right: 0; bottom: 0;
+      padding: 12px 16px calc(14px + env(safe-area-inset-bottom));
+      background: linear-gradient(180deg, transparent, #fff7f4 28%);
+      display: flex; justify-content: center; gap: 8px; z-index: 20;
+    }
+    .dock .btn { min-height: 48px; padding: 12px 16px; font-size: 14px; box-shadow: 0 8px 20px rgba(139,58,74,.16); }
+    .toast {
+      position: fixed; left: 50%; bottom: 92px; transform: translateX(-50%) translateY(12px);
+      background: var(--ink); color: #fff; padding: 10px 14px; border-radius: 999px;
+      font-size: 13px; opacity: 0; pointer-events: none; transition: .25s ease; z-index: 30;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .note { font-size: 13px; color: var(--muted); line-height: 1.45; }
+    .secret { background: #3a2228; color: #fff; border: 0; }
+    .secret p { color: #f4c9d2; }
+    footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 8px; }
+  </style>
 </head>
 <body>
-<p>placeholder - will replace</p>
+  <div class="wrap">
+    <header class="hero">
+      <div class="badge">Sorpresa · Team Ari's Happiness</div>
+      <h1>Cumpleaños de Ari</h1>
+      <p class="sub">Sábado 19 de septiembre · empezamos 7:00 PM</p>
+      <div class="countdown" id="countdown">
+        <div class="tick"><b id="d">–</b><span>días</span></div>
+        <div class="tick"><b id="h">–</b><span>hrs</span></div>
+        <div class="tick"><b id="m">–</b><span>min</span></div>
+        <div class="tick"><b id="s">–</b><span>seg</span></div>
+      </div>
+    </header>
+    <section class="card">
+      <h2>📅 Cuándo y cómo</h2>
+      <div class="when">
+        <div class="pill"><small>Día</small>Sábado 19 sep 2026</div>
+        <div class="pill"><small>Hora</small>7:00 PM</div>
+        <div class="pill"><small>Plan Ari</small>Daniel se la lleva unas horas</div>
+      </div>
+      <p class="note" style="margin-top:12px">Mientras Daniel saca a Ari, el equipo arma la casa. Cuando vuelvan, ya está listo.</p>
+    </section>
+    <section class="card">
+      <h2>Equipo</h2>
+      <div class="member"><div class="avatar">🍰</div><div><strong>Kiara (Ari)</strong><p>Pastel: fresa o chocolate — el sabor favorito de Ari. Puede apoyar con la comida.</p></div></div>
+      <div class="member"><div class="avatar">🎀</div><div><strong>Melissa Yepes + Ramón</strong><p>Decoraciones y encargados de la casa. Paleta: rosa claro / baby pink.</p></div></div>
+      <div class="member"><div class="avatar">🥟</div><div><strong>Daniel</strong><p>Paparepas y tacos. Llama al restaurante para que esté listo; pone la orden mañana.</p></div></div>
+      <div class="member"><div class="avatar">🥤</div><div><strong>Valeria (Ari) + Zara</strong><p>Bebidas y ayuda en decoración. Valeria también puede apoyar con la comida.</p></div></div>
+      <div class="member"><div class="avatar">🛒</div><div><strong>Karen</strong><p>Buscar comida. Kiara y Valeria pueden apoyar aquí.</p></div></div>
+    </section>
+    <section class="card">
+      <h2>Comida y mapas</h2>
+      <div class="place">
+        <h3>Paparepas — Renton</h3>
+        <p>17034 116th Ave SE, Renton, WA 98058<br>Ida y vuelta ≈ 40 min–1 hora. Arepas, empanadas, tequeños.</p>
+        <div class="links">
+          <a class="btn btn-dark" target="_blank" rel="noopener" href="https://maps.apple.com/?q=Paparepas%2017034%20116th%20Ave%20SE%20Renton%20WA">Apple Maps</a>
+          <a class="btn btn-soft" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Paparepas+17034+116th+Ave+SE+Renton+WA+98058">Google Maps</a>
+          <a class="btn btn-soft" target="_blank" rel="noopener" href="https://www.paparepas.com/">Menú</a>
+        </div>
+      </div>
+      <div class="place">
+        <h3>Tacos — White Center</h3>
+        <p>Queda a ~10 min de la casa. El local exacto lo confirma Karen / Daniel al poner la orden.</p>
+        <div class="links">
+          <a class="btn btn-dark" target="_blank" rel="noopener" href="https://maps.apple.com/?q=White%20Center%20Seattle%20tacos">Apple Maps</a>
+          <a class="btn btn-soft" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=tacos+White+Center+Seattle">Google Maps</a>
+        </div>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Decoración</h2>
+      <p class="note">Rosa claro, tipo baby pink. Globos, flores, luces suaves, mantel y detalles en la mesa del pastel. Melissa lidera; Valeria y Zara apoyan. Ramón ayuda en casa.</p>
+    </section>
+    <section class="card">
+      <h2>Lista del equipo <span id="countLabel" style="font-family:Outfit;font-size:13px;color:#8a6a72;font-weight:600"></span></h2>
+      <div class="progress"><i id="bar"></i></div>
+      <ul class="list" id="list"></ul>
+      <div class="add-row">
+        <input id="newItem" placeholder="Agregar algo a la lista…" maxlength="120" />
+        <button class="btn btn-dark" type="button" id="addBtn">Añadir</button>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Notas del grupo</h2>
+      <textarea id="notes" placeholder="Horario para recoger comida, quién lleva hielo, platos, etc."></textarea>
+      <p class="note" style="margin-top:8px">Se guarda solo en este teléfono. Si quieren la misma lista todos, compartan el mensaje de WhatsApp.</p>
+    </section>
+    <section class="card secret">
+      <h2 style="color:#fff">Recuerden</h2>
+      <p>No etiqueten a Ari en stories. No hablen del plan en chats donde ella esté. Si alguien pregunta, es “una cena tranquila”.</p>
+    </section>
+    <footer>Team Ari's Happiness · sáb 7:00 PM</footer>
+  </div>
+  <div class="dock">
+    <button class="btn btn-wa" id="shareWa" type="button">WhatsApp</button>
+    <button class="btn btn-dark" id="shareSys" type="button">Compartir</button>
+    <button class="btn btn-soft" id="copyBtn" type="button">Copiar plan</button>
+  </div>
+  <div class="toast" id="toast">Copiado</div>
+  <script>
+    const TARGET = new Date("2026-09-19T19:00:00-07:00");
+    const DEFAULT_ITEMS = [
+      { id: "pastel", text: "Definir y pedir el pastel (fresa o chocolate)", who: "Kiara" },
+      { id: "orden", text: "Llamar y poner la orden de comida (mañana)", who: "Daniel" },
+      { id: "papa", text: "Recoger Paparepas en Renton", who: "Daniel + apoyo" },
+      { id: "tacos", text: "Recoger tacos en White Center", who: "Karen / equipo comida" },
+      { id: "hora", text: "Avisar a qué hora pasan por la comida", who: "Daniel" },
+      { id: "deco", text: "Comprar decoración baby pink", who: "Melissa" },
+      { id: "casa", text: "Preparar la casa con Ramón", who: "Melissa + Ramón" },
+      { id: "bebidas", text: "Comprar bebidas + hielo + vasos", who: "Valeria + Zara" },
+      { id: "ayuda-deco", text: "Ayudar a montar la decoración", who: "Valeria + Zara" },
+      { id: "sacar", text: "Sacar a Ari unas horas el sábado", who: "Daniel" },
+      { id: "mapa", text: "Enviar mapa, direcciones y dónde estacionar", who: "Daniel" },
+      { id: "7pm", text: "Estar listos a las 7:00 PM", who: "Todo el equipo" }
+    ];
+    const $ = (id) => document.getElementById(id);
+    const state = {
+      items: JSON.parse(localStorage.getItem("ari-items") || "null") || DEFAULT_ITEMS.map(i => ({...i, done: false})),
+      notes: localStorage.getItem("ari-notes") || ""
+    };
+    function save() {
+      localStorage.setItem("ari-items", JSON.stringify(state.items));
+      localStorage.setItem("ari-notes", state.notes);
+    }
+    function renderList() {
+      const box = $("list");
+      box.innerHTML = "";
+      state.items.forEach((item, idx) => {
+        const li = document.createElement("li");
+        li.className = "item" + (item.done ? " done" : "");
+        li.innerHTML = `<input type="checkbox" ${item.done ? "checked" : ""} data-idx="${idx}" /><div><span>${item.text}</span><span class="who">${item.who || "Equipo"}</span></div>`;
+        box.appendChild(li);
+      });
+      const done = state.items.filter(i => i.done).length;
+      $("countLabel").textContent = `${done}/${state.items.length}`;
+      $("bar").style.width = (state.items.length ? (done / state.items.length) * 100 : 0) + "%";
+    }
+    $("list").addEventListener("change", (e) => {
+      const idx = e.target.dataset.idx;
+      if (idx == null) return;
+      state.items[idx].done = e.target.checked;
+      save();
+      renderList();
+    });
+    $("addBtn").onclick = addItem;
+    $("newItem").addEventListener("keydown", (e) => { if (e.key === "Enter") addItem(); });
+    function addItem() {
+      const text = $("newItem").value.trim();
+      if (!text) return;
+      state.items.push({ id: "c" + Date.now(), text, who: "Extra", done: false });
+      $("newItem").value = "";
+      save();
+      renderList();
+    }
+    $("notes").value = state.notes;
+    $("notes").addEventListener("input", (e) => { state.notes = e.target.value; save(); });
+    function planText() {
+      const checks = state.items.map(i => `${i.done ? "✅" : "☐"} ${i.text} _(${i.who})_`).join("\n");
+      const extra = state.notes.trim() ? `\n\n*Notas:*\n${state.notes.trim()}` : "";
+      return `\ud83c\udf82 *Team Ari's Happiness*\nSorpresa de cumplea\u00f1os de Ari\n\ud83d\udcc5 S\u00e1bado 19 sep \u00b7 \ud83d\udd50 7:00 PM\n\n*Plan:* Daniel se lleva a Ari unas horas. El equipo arma todo en la casa. Empezamos a las 7.\n\n*Equipo*\n\ud83c\udf70 Kiara \u2014 pastel (fresa o chocolate)\n\ud83c\udf80 Melissa + Ram\u00f3n \u2014 decoraci\u00f3n baby pink + casa\n\ud83e\udd5f Daniel \u2014 paparepas (Renton) y tacos (White Center)\n\ud83e\udd64 Valeria + Zara \u2014 bebidas y ayuda en decoraci\u00f3n\n\ud83d\uded2 Karen \u2014 buscar comida (Kiara y Valeria apoyan)\n\n*Comida*\n\u2022 Paparepas \u2014 17034 116th Ave SE, Renton, WA\n  Ida y vuelta ~40 min\u20131 hr\n  Maps: https://maps.apple.com/?q=Paparepas%2017034%20116th%20Ave%20SE%20Renton%20WA\n\u2022 Tacos \u2014 White Center (~10 min de la casa)\n\n*Lista*\n${checks}${extra}\n\nNo etiqueten a Ari. Si preguntan: es una cena tranquila.`;
+    }
+    function toast(msg) {
+      const t = $("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 1800);
+    }
+    async function copyPlan() {
+      const text = planText();
+      try {
+        await navigator.clipboard.writeText(text);
+        toast("Plan copiado. P\u00e9galo en el grupo");
+      } catch {
+        prompt("Copia este plan:", text);
+      }
+    }
+    $("copyBtn").onclick = copyPlan;
+    $("shareWa").onclick = () => {
+      const url = "https://wa.me/?text=" + encodeURIComponent(planText());
+      window.location.href = url;
+    };
+    $("shareSys").onclick = async () => {
+      const text = planText();
+      if (navigator.share) {
+        try { await navigator.share({ title: "Team Ari's Happiness", text }); return; }
+        catch (e) { if (e && e.name === "AbortError") return; }
+      }
+      copyPlan();
+    };
+    function tick() {
+      const now = new Date();
+      let diff = TARGET - now;
+      if (diff < 0) {
+        $("d").textContent = $("h").textContent = $("m").textContent = $("s").textContent = "0";
+        return;
+      }
+      const d = Math.floor(diff / 86400000); diff -= d * 86400000;
+      const h = Math.floor(diff / 3600000); diff -= h * 3600000;
+      const m = Math.floor(diff / 60000); diff -= m * 60000;
+      const s = Math.floor(diff / 1000);
+      $("d").textContent = d; $("h").textContent = h; $("m").textContent = m; $("s").textContent = s;
+    }
+    tick(); setInterval(tick, 1000); renderList();
+  </script>
 </body>
 </html>
